@@ -1,0 +1,147 @@
+:root {
+  /* =========================================
+     STREAMHUB - UNIFIED DESIGN TOKENS
+  ========================================= */
+
+  /* Backgrounds */
+  --bg-primary: #090a0f;
+  --bg-secondary: #10101c;
+  --bg-tertiary: #181826;
+  --bg-elevated: rgba(18, 18, 27, 0.85);
+
+  /* Text */
+  --text-primary: #ffffff;
+  --text-secondary: #8c8999;
+  --text-muted: #6d6a79;
+
+  /* Accents */
+  --accent: #9b5cff;
+  --accent-hover: #b485ff;
+  --accent-secondary: #8b3dff;
+  --accent-tertiary: #d0b3ff;
+  /* success */
+  --accent-danger: #ff5252;
+  --accent-danger-hover: #ff7070;
+
+  /* Gradients */
+  --gradient-main: linear-gradient(135deg, var(--accent-secondary), var(--accent));
+  --gradient-accent: linear-gradient(90deg, var(--accent-secondary), var(--accent), var(--accent-hover));
+
+  /* Borders */
+  --border: rgba(255, 255, 255, 0.08);
+  --border-light: rgba(255, 255, 255, 0.15);
+
+  /* Glassmorphism */
+  --glass-bg: rgba(9, 10, 15, 0.85);
+  --glass-border: rgba(255, 255, 255, 0.07);
+  --glass-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+
+  /* Radii */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 18px;
+  --radius-pill: 30px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+button {
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-family: inherit;
+  color: inherit;
+}
+
+/* Glassmorphism Utilities */
+.glass {
+  background: var(--glass-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--glass-border);
+}
+
+.btn-primary {
+  background-color: var(--accent);
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.btn-primary:hover {
+  background-color: var(--accent-hover);
+  transform: translateY(-1px);
+}
+
+.btn-glass {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(8px);
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  font-weight: 600;
+  transition: all 0.2s ease;
+  color: white;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.btn-glass:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* Grid and layout utilities */
+.app-container {
+  display: flex;
+  min-height: 100vh;
+}
+
+.main-content {
+  flex: 1;
+  padding-left: 240px;
+  /* sidebar width */
+  padding-bottom: 80px;
+  /* mobile bottom nav */
+}
+
+@media (max-width: 1024px) {
+  .main-content {
+    padding-left: 0;
+  }
+}
+
+.horizontal-scroll {
+  display: flex;
+  overflow-x: auto;
+  gap: 1.5rem;
+  padding: 1rem 0;
+  scrollbar-width: none;
+  /* Firefox */
+}
+
+.horizontal-scroll::-webkit-scrollbar {
+  display: none;
+  /* Safari and Chrome */
+}

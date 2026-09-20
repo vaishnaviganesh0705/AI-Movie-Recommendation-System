@@ -1,0 +1,190 @@
+.movie-card {
+    min-width: 200px;
+    width: 200px;
+    flex: 0 0 auto;
+    border-radius: var(--radius-md);
+    background: transparent;
+    transition: 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+    cursor: pointer;
+}
+
+.movie-card:hover {
+    transform: translateY(-8px);
+}
+
+.movie-poster-wrapper {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 2/3;
+    border-radius: var(--radius-md);
+    overflow: hidden;
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.movie-poster {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: 0.4s ease;
+}
+
+.movie-poster-placeholder {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, var(--bg-secondary), var(--bg-primary));
+    display: grid;
+    place-items: center;
+    color: var(--text-muted);
+    font-size: 13px;
+    font-weight: 500;
+}
+
+.movie-card:hover .movie-poster {
+    transform: scale(1.05);
+}
+
+.movie-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.2) 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
+    opacity: 0;
+    transition: 0.3s;
+}
+
+.movie-card:hover .movie-overlay {
+    opacity: 1;
+}
+
+.movie-play-btn,
+.movie-watchlist-btn {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: none;
+    display: grid;
+    place-items: center;
+    cursor: pointer;
+    transition: 0.25s;
+    color: white;
+}
+
+.movie-play-btn {
+    background: var(--accent);
+    box-shadow: 0 5px 15px rgba(155, 92, 255, 0.4);
+}
+
+.movie-play-btn:hover {
+    background: var(--accent-hover);
+    transform: scale(1.1);
+}
+
+.movie-watchlist-btn {
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(5px);
+    width: 40px;
+    height: 40px;
+}
+
+.movie-watchlist-btn:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+.movie-metadata {
+    padding: 12px 4px;
+}
+
+.movie-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0 0 6px 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.movie-stats {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    color: var(--text-secondary);
+}
+
+.movie-rating {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    color: var(--accent-secondary);
+    font-weight: 600;
+}
+
+.movie-divider {
+    color: var(--text-muted);
+}
+
+/* ====================================
+   SKELETON LOADING UI 
+==================================== */
+
+.skeleton-card {
+    cursor: default;
+}
+
+.skeleton-card:hover {
+    transform: none;
+}
+
+.skeleton-image {
+    width: 100%;
+    aspect-ratio: 2/3;
+    border-radius: var(--radius-md);
+    background: var(--bg-tertiary);
+    margin-bottom: 12px;
+}
+
+.skeleton-text {
+    height: 14px;
+    background: var(--bg-tertiary);
+    border-radius: 4px;
+    margin-bottom: 8px;
+}
+
+.skeleton-text.short {
+    width: 70%;
+}
+
+.skeleton-text.medium {
+    width: 40%;
+}
+
+.pulse {
+    animation: pulse 1.5s infinite ease-in-out;
+}
+
+@keyframes pulse {
+    0% {
+        opacity: 0.6;
+    }
+
+    50% {
+        opacity: 0.3;
+    }
+
+    100% {
+        opacity: 0.6;
+    }
+}
+
+@media (max-width: 800px) {
+    .movie-card {
+        min-width: 140px;
+        width: 140px;
+    }
+}
