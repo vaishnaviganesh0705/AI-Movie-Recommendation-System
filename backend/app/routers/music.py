@@ -1,10 +1,11 @@
 from fastapi import APIRouter, Depends, HTTPException, Query
 from sqlalchemy.orm import Session
-from typing import Optional, List
+from typing import Optional, List, Dict, Any
 from app.database import get_db
-from app.dependencies import get_current_user
+from app.dependencies import get_current_user, get_optional_current_user
 from app.models.user import User
 from app.models.music import Artist, Album, Song, LikedSong, Playlist
+from app.services.spotify_service import spotify_service
 
 router = APIRouter(prefix="/music", tags=["Music"])
 
@@ -253,3 +254,68 @@ def toggle_like_song(
         db.add(new_liked)
         db.commit()
         return {"liked": True, "message": "Song added to liked tracks"}
+
+
+# =========================================================
+# SPOTIFY WEB API ENDPOINTS
+# =========================================================
+
+@router.get("/search")
+def search_spotify_music(
+    q: str = Query(..., description="Search term for tracks or artists"),
+    limit: int = Query(10, ge=1, le=50)
+):
+    """
+    Searches the official Spotify Web API catalog for tracks matching query.
+    Returns normalized track objects with artwork, artists, and Spotify links.
+    """
+    res = spotify_service.search_tracks(query=q, limit=limit)
+    return res
+
+
+@router.get("/recommendations")
+def get_spotify_recommendations(
+    context: Optional[str] = Query(None, description="Context, mood, or thematic search query"),
+    limit: int = Query(10, ge=1, le=50),
+    db: Session = Depends(get_db),
+    current_user: Optional[User] = Depends(get_optional_current_user)
+):
+    """
+    Retrieves music recommendations from Spotify Web API based on mood, activity, or user context.
+    If context is omitted and user is authenticated, derives context from user's watch history.
+    """
+    search_context = context
+    if not search_context and current_user:
+        # Check user's recent watch history to derive context
+        from app.models.history import WatchHistory
+        from app.services.tmdb_service import get_movie_details
+        history_entries = db.query(WatchHistory).filter(
+            WatchHistory.user_id == current_user.id
+        ).order_by(WatchHistory.watched_at.desc()).limit(3).all()
+
+        genres = []
+        for h in history_entries:
+            details = get_movie_details(h.tmdb_id)
+            if details:
+                for g in details.get("genres", []):
+                    if g.get("name") and g["name"] not in genres:
+                        genres.append(g["name"])
+
+        if genres:
+            search_context = f"{' '.join(genres[:2])} cinematic hits"
+
+    if not search_context:
+        search_context = "top hits"
+
+    res = spotify_service.search_tracks(query=search_context, limit=limit)
+    res["context_used"] = search_context
+    return res
+
+
+@router.get("/track/{track_id}")
+def get_spotify_track(track_id: str):
+    """
+    Retrieves single track details by Spotify ID.
+    """
+    res = spotify_service.get_track(track_id=track_id)
+    return res

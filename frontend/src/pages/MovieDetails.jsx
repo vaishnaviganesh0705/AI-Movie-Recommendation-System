@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
-import { Play, Plus, ChevronLeft, Check, Star, Film, X, Clock, Calendar, AlertCircle } from 'lucide-react';
+import { Play, Plus, ChevronLeft, Check, Star, Film, X, Clock, Calendar, AlertCircle, Sparkles, Send, MessageSquare, Quote } from 'lucide-react';
 import api from '../services/api';
 import MovieCard from '../components/MovieCard';
 
@@ -13,6 +13,14 @@ const MovieDetails = () => {
     const [streamMessage, setStreamMessage] = useState(null);
     const [showTrailer, setShowTrailer] = useState(false);
     const [isPlaying, setIsPlaying] = useState(false);
+
+    // Subtitle RAG Q&A State
+    const [qaQuestion, setQaQuestion] = useState('');
+    const [qaLoading, setQaLoading] = useState(false);
+    const [qaAnswer, setQaAnswer] = useState(null);
+    const [qaSources, setQaSources] = useState([]);
+    const [qaState, setQaState] = useState(null);
+    const [qaError, setQaError] = useState(null);
 
     useEffect(() => {
         const fetchDetails = async () => {
@@ -107,6 +115,33 @@ const MovieDetails = () => {
         } catch (err) {
             setStreamMessage({ type: 'error', text: 'Entitlement check failed. Redirecting to subscription plans...' });
             setTimeout(() => navigate('/subscription'), 2200);
+        }
+    };
+
+    const handleAskSubtitle = async (customQ) => {
+        const q = (typeof customQ === 'string' ? customQ : qaQuestion).trim();
+        if (!q) return;
+        if (typeof customQ === 'string') setQaQuestion(customQ);
+
+        setQaLoading(true);
+        setQaError(null);
+        try {
+            const res = await api.post('/subtitles/qa', {
+                question: q,
+                movie_title: movieDetails?.title || 'Interstellar',
+                movie_id: parseInt(id),
+                state: qaState
+            });
+            setQaAnswer(res.data.answer);
+            setQaSources(res.data.sources || []);
+            if (res.data.state) {
+                setQaState(res.data.state);
+            }
+        } catch (err) {
+            console.error("Subtitle QA Error", err);
+            setQaError(err.response?.data?.detail || err.message || "Could not retrieve subtitle answer.");
+        } finally {
+            setQaLoading(false);
         }
     };
 
@@ -451,6 +486,187 @@ const MovieDetails = () => {
                     </div>
                 </div>
             )}
+
+            {/* Real Subtitle RAG Q&A Section */}
+            <div style={{
+                margin: '30px 4%',
+                padding: '28px',
+                borderRadius: '16px',
+                background: 'linear-gradient(135deg, rgba(20, 24, 35, 0.95), rgba(13, 16, 24, 0.98))',
+                border: '1px solid rgba(255, 255, 255, 0.1)',
+                boxShadow: '0 20px 50px rgba(0,0,0,0.6)'
+            }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '12px', marginBottom: '18px' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                        <div style={{ width: '36px', height: '36px', borderRadius: '10px', background: 'linear-gradient(135deg, #e50914, #ff5e62)', display: 'grid', placeItems: 'center' }}>
+                            <Sparkles size={20} color="#fff" />
+                        </div>
+                        <div>
+                            <h3 style={{ margin: 0, fontSize: '20px', fontWeight: 800, letterSpacing: '-0.3px' }}>
+                                ASK ABOUT THIS MOVIE
+                            </h3>
+                            <p style={{ margin: '2px 0 0', fontSize: '12px', color: 'var(--text-secondary)' }}>
+                                Real Subtitle RAG • Strictly Grounded in Spoken Dialogue • Verified Timestamps
+                            </p>
+                        </div>
+                    </div>
+
+                    <div style={{
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: '6px',
+                        padding: '6px 12px',
+                        borderRadius: '20px',
+                        background: 'rgba(46, 204, 113, 0.15)',
+                        border: '1px solid rgba(46, 204, 113, 0.3)',
+                        color: '#2ecc71',
+                        fontSize: '12px',
+                        fontWeight: 600
+                    }}>
+                        <span style={{ width: '7px', height: '7px', borderRadius: '50%', background: '#2ecc71' }} />
+                        Subtitles Knowledge Active
+                    </div>
+                </div>
+
+                {/* Free-form Input */}
+                <form
+                    onSubmit={(e) => {
+                        e.preventDefault();
+                        handleAskSubtitle();
+                    }}
+                    style={{ display: 'flex', gap: '10px', marginBottom: '16px' }}
+                >
+                    <input
+                        type="text"
+                        value={qaQuestion}
+                        onChange={(e) => setQaQuestion(e.target.value)}
+                        placeholder={`Ask anything about ${movieDetails.title} (dialogue, scenes, timestamps, characters)...`}
+                        style={{
+                            flex: 1,
+                            padding: '14px 18px',
+                            background: 'rgba(0, 0, 0, 0.4)',
+                            border: '1px solid rgba(255, 255, 255, 0.15)',
+                            borderRadius: '10px',
+                            color: '#fff',
+                            fontSize: '14px',
+                            outline: 'none',
+                            transition: 'border-color 0.2s'
+                        }}
+                    />
+                    <button
+                        type="submit"
+                        disabled={qaLoading || !qaQuestion.trim()}
+                        className="btn-primary"
+                        style={{
+                            padding: '12px 28px',
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '8px',
+                            fontWeight: 700,
+                            borderRadius: '10px',
+                            cursor: qaLoading || !qaQuestion.trim() ? 'not-allowed' : 'pointer',
+                            opacity: qaLoading || !qaQuestion.trim() ? 0.6 : 1
+                        }}
+                    >
+                        {qaLoading ? 'Searching...' : (<><Send size={16} /> Ask</>)}
+                    </button>
+                </form>
+
+                {/* Suggestion Pills */}
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px', marginBottom: '20px' }}>
+                    <span style={{ fontSize: '12px', color: 'var(--text-muted)', alignSelf: 'center', marginRight: '4px' }}>Examples:</span>
+                    {[
+                        "What did Cooper say to Murph about ghosts?",
+                        "What happened around 1 hour?",
+                        "What did they discuss about the mission?",
+                        "What did Murph say about her dad at the beginning?",
+                        "What did the characters say about gravity?"
+                    ].map((exampleQ, idx) => (
+                        <button
+                            key={idx}
+                            type="button"
+                            onClick={() => handleAskSubtitle(exampleQ)}
+                            style={{
+                                background: 'rgba(255, 255, 255, 0.06)',
+                                border: '1px solid rgba(255, 255, 255, 0.12)',
+                                borderRadius: '16px',
+                                padding: '5px 12px',
+                                color: 'var(--text-secondary)',
+                                fontSize: '12px',
+                                cursor: 'pointer',
+                                transition: 'all 0.2s'
+                            }}
+                        >
+                            {exampleQ}
+                        </button>
+                    ))}
+                </div>
+
+                {/* Error Banner */}
+                {qaError && (
+                    <div style={{
+                        padding: '12px 16px',
+                        background: 'rgba(231, 76, 60, 0.15)',
+                        border: '1px solid #e74c3c',
+                        borderRadius: '8px',
+                        color: '#ff6b6b',
+                        fontSize: '13px',
+                        marginBottom: '16px'
+                    }}>
+                        {qaError}
+                    </div>
+                )}
+
+                {/* Grounded RAG Answer Display */}
+                {qaAnswer && (
+                    <div style={{
+                        background: 'rgba(0, 0, 0, 0.5)',
+                        border: '1px solid rgba(255, 255, 255, 0.1)',
+                        borderRadius: '12px',
+                        padding: '20px',
+                        marginTop: '10px'
+                    }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '12px', color: 'var(--accent-hover)', fontSize: '13px', fontWeight: 700 }}>
+                            <MessageSquare size={16} /> GROUNDED SUBTITLE ANSWER
+                        </div>
+                        <div style={{ fontSize: '15px', lineHeight: 1.7, color: 'var(--text-primary)', whiteSpace: 'pre-wrap', marginBottom: '18px' }}>
+                            {qaAnswer}
+                        </div>
+
+                        {/* Source Timestamps and Dialogue Quotes */}
+                        {qaSources && qaSources.length > 0 && (
+                            <div style={{ borderTop: '1px solid rgba(255, 255, 255, 0.08)', paddingTop: '16px' }}>
+                                <div style={{ fontSize: '12px', fontWeight: 700, color: 'var(--text-secondary)', marginBottom: '10px', textTransform: 'uppercase', letterSpacing: '0.5px' }}>
+                                    Verified Subtitle Evidence ({qaSources.length} sources)
+                                </div>
+                                <div style={{ display: 'grid', gap: '10px' }}>
+                                    {qaSources.map((s, idx) => (
+                                        <div
+                                            key={idx}
+                                            style={{
+                                                background: 'rgba(255, 255, 255, 0.03)',
+                                                border: '1px solid rgba(255, 255, 255, 0.07)',
+                                                borderRadius: '8px',
+                                                padding: '10px 14px'
+                                            }}
+                                        >
+                                            <div style={{ display: 'flex', alignItems: 'center', gap: '6px', marginBottom: '6px' }}>
+                                                <Clock size={13} color="var(--accent-hover)" />
+                                                <span style={{ fontSize: '12px', fontWeight: 700, color: 'var(--accent-hover)', fontFamily: 'monospace' }}>
+                                                    {s.start_time} → {s.end_time}
+                                                </span>
+                                            </div>
+                                            <p style={{ margin: 0, fontSize: '13px', color: 'var(--text-secondary)', fontStyle: 'italic', lineHeight: 1.5 }}>
+                                                "{s.text}"
+                                            </p>
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        )}
+                    </div>
+                )}
+            </div>
 
             {/* Similar Movies Section */}
             {similarMovies.length > 0 && (

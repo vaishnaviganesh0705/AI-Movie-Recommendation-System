@@ -1,0 +1,235 @@
+[
+  {
+    "id": "eval_01",
+    "query": "What is Murphy's Law according to Cooper in Interstellar?",
+    "category": "dialogue_quote",
+    "expected_intent": "SUBTITLE_QA",
+    "expected_grounding": "Strong evidence",
+    "expected_content_keywords": ["whatever can happen will happen", "bad"]
+  },
+  {
+    "id": "eval_02",
+    "query": "What did Amelia Brand say about love in Interstellar?",
+    "category": "dialogue_quote",
+    "expected_intent": "SUBTITLE_QA",
+    "expected_grounding": "Strong evidence",
+    "expected_content_keywords": ["love", "observable", "dimensions", "transcends"]
+  },
+  {
+    "id": "eval_03",
+    "query": "What Dylan Thomas poem does Professor Brand recite?",
+    "category": "dialogue_quote",
+    "expected_intent": "SUBTITLE_QA",
+    "expected_grounding": "Strong evidence",
+    "expected_content_keywords": ["gentle into that good night", "rage"]
+  },
+  {
+    "id": "eval_04",
+    "query": "What promise did Cooper make to Murph before leaving Earth?",
+    "category": "character_motivation",
+    "expected_intent": "SUBTITLE_QA",
+    "expected_grounding": "Strong evidence",
+    "expected_content_keywords": ["come back", "return", "watch", "promise"]
+  },
+  {
+    "id": "eval_05",
+    "query": "What is TARS's honesty parameter set to?",
+    "category": "dialogue_quote",
+    "expected_intent": "SUBTITLE_QA",
+    "expected_grounding": "Strong evidence",
+    "expected_content_keywords": ["90", "percent", "honesty"]
+  },
+  {
+    "id": "eval_06",
+    "query": "What was Plan A and what was Plan B in Interstellar?",
+    "category": "plot_mechanics",
+    "expected_intent": "SUBTITLE_QA",
+    "expected_grounding": "Strong evidence",
+    "expected_content_keywords": ["gravity", "population", "embryos", "earth"]
+  },
+  {
+    "id": "eval_07",
+    "query": "Why did Dr. Mann fake the data on his icy planet?",
+    "category": "character_motivation",
+    "expected_intent": "SUBTITLE_QA",
+    "expected_grounding": "Strong evidence",
+    "expected_content_keywords": ["die", "alone", "isolated", "faked", "unhabitable"]
+  },
+  {
+    "id": "eval_08",
+    "query": "Why did Professor Brand lie about solving the gravity equation?",
+    "category": "character_motivation",
+    "expected_intent": "SUBTITLE_QA",
+    "expected_grounding": "Strong evidence",
+    "expected_content_keywords": ["equation", "plan a", "impossible", "lie"]
+  },
+  {
+    "id": "eval_09",
+    "query": "How does time slippage work on Miller's water planet compared to Earth?",
+    "category": "plot_mechanics",
+    "expected_intent": "SUBTITLE_QA",
+    "expected_grounding": "Strong evidence",
+    "expected_content_keywords": ["seven years", "one hour", "years"]
+  },
+  {
+    "id": "eval_10",
+    "query": "Where is the wormhole located in our solar system in Interstellar?",
+    "category": "plot_mechanics",
+    "expected_intent": "SUBTITLE_QA",
+    "expected_grounding": "Strong evidence",
+    "expected_content_keywords": ["saturn", "orbit"]
+  },
+  {
+    "id": "eval_11",
+    "query": "What did Romilly do during the 23 years he waited on the Endurance?",
+    "category": "plot_mechanics",
+    "expected_intent": "SUBTITLE_QA",
+    "expected_grounding": "Strong evidence",
+    "expected_content_keywords": ["sleep", "studied", "black hole", "gravity"]
+  },
+  {
+    "id": "eval_12",
+    "query": "How did Cooper communicate quantum data to Murph from the tesseract?",
+    "category": "plot_mechanics",
+    "expected_intent": "SUBTITLE_QA",
+    "expected_grounding": "Strong evidence",
+    "expected_content_keywords": ["watch", "morse", "second hand", "gravity"]
+  },
+  {
+    "id": "eval_13",
+    "query": "What does the binary dust coordinate lead Cooper and Murph to?",
+    "category": "plot_mechanics",
+    "expected_intent": "SUBTITLE_QA",
+    "expected_grounding": "Strong evidence",
+    "expected_content_keywords": ["nasa", "facility", "norad"]
+  },
+  {
+    "id": "eval_14",
+    "query": "What is the name of the supermassive black hole in Interstellar?",
+    "category": "plot_mechanics",
+    "expected_intent": "SUBTITLE_QA",
+    "expected_grounding": "Strong evidence",
+    "expected_content_keywords": ["gargantua"]
+  },
+  {
+    "id": "eval_15",
+    "query": "What happened to Doyle on Miller's planet?",
+    "category": "plot_mechanics",
+    "expected_intent": "SUBTITLE_QA",
+    "expected_grounding": "Strong evidence",
+    "expected_content_keywords": ["wave", "killed", "drowned", "caught"]
+  },
+  {
+    "id": "eval_16",
+    "query": "What dialogue happens at timestamp 00:05:56 in Interstellar?",
+    "category": "timestamp_dialogue",
+    "expected_intent": "TIMELINE_QA",
+    "expected_grounding": "Strong evidence",
+    "expected_content_keywords": ["murphy", "law", "happen"]
+  },
+  {
+    "id": "eval_17",
+    "query": "What discussion occurs around 01:27:37 regarding Edmunds and Mann?",
+    "category": "timestamp_dialogue",
+    "expected_intent": "TIMELINE_QA",
+    "expected_grounding": "Strong evidence",
+    "expected_content_keywords": ["edmunds", "mann", "love", "transmitting"]
+  },
+  {
+    "id": "eval_18",
+    "query": "What is discussed around 00:35:00 when Cooper meets NASA?",
+    "category": "timestamp_dialogue",
+    "expected_intent": "TIMELINE_QA",
+    "expected_grounding": "Strong evidence",
+    "expected_content_keywords": ["nasa", "mission", "earth", "save"]
+  },
+  {
+    "id": "eval_19",
+    "query": "What color shirt was Cooper wearing when driving the truck through the cornfield?",
+    "category": "visual_negative",
+    "expected_intent": "SUBTITLE_QA",
+    "expected_grounding": "Not enough evidence",
+    "should_refuse": true
+  },
+  {
+    "id": "eval_20",
+    "query": "What brand of sneakers or shoes did Murph wear to school in Interstellar?",
+    "category": "visual_negative",
+    "expected_intent": "SUBTITLE_QA",
+    "expected_grounding": "Not enough evidence",
+    "should_refuse": true
+  },
+  {
+    "id": "eval_21",
+    "query": "What color paint is on the interior metal frame of the Ranger ship?",
+    "category": "visual_negative",
+    "expected_intent": "SUBTITLE_QA",
+    "expected_grounding": "Not enough evidence",
+    "should_refuse": true
+  },
+  {
+    "id": "eval_22",
+    "query": "Does Cobb's spinning totem fall at the end of Interstellar?",
+    "category": "out_of_movie_negative",
+    "expected_intent": "SUBTITLE_QA",
+    "expected_grounding": "Not enough evidence",
+    "should_refuse": true
+  },
+  {
+    "id": "eval_23",
+    "query": "Who stole the Death Star plans during the mission in Interstellar?",
+    "category": "out_of_movie_negative",
+    "expected_intent": "SUBTITLE_QA",
+    "expected_grounding": "Not enough evidence",
+    "should_refuse": true
+  },
+  {
+    "id": "eval_24",
+    "query": "Write a quicksort algorithm in Python with sample tests.",
+    "category": "unsupported_domain",
+    "expected_intent": "UNSUPPORTED",
+    "should_refuse": true
+  },
+  {
+    "id": "eval_25",
+    "query": "What is the capital city of Australia?",
+    "category": "unsupported_domain",
+    "expected_intent": "UNSUPPORTED",
+    "should_refuse": true
+  },
+  {
+    "id": "eval_26",
+    "query": "Who directed Interstellar?",
+    "category": "metadata_lookup",
+    "expected_intent": "MOVIE_METADATA",
+    "expected_content_keywords": ["Christopher Nolan"]
+  },
+  {
+    "id": "eval_27",
+    "query": "What is the runtime of Interstellar?",
+    "category": "metadata_lookup",
+    "expected_intent": "MOVIE_METADATA",
+    "expected_content_keywords": ["169"]
+  },
+  {
+    "id": "eval_28",
+    "query": "What is the release year and cast of Interstellar?",
+    "category": "metadata_lookup",
+    "expected_intent": "MOVIE_METADATA",
+    "expected_content_keywords": ["2014", "Matthew McConaughey"]
+  },
+  {
+    "id": "eval_29",
+    "query": "Recommend sci-fi movies similar to Interstellar",
+    "category": "recommendation",
+    "expected_intent": "RECOMMENDATION",
+    "expected_content_keywords": ["movies", "verified", "TMDB"]
+  },
+  {
+    "id": "eval_30",
+    "query": "Suggest top rated space travel movies like Interstellar",
+    "category": "recommendation",
+    "expected_intent": "RECOMMENDATION",
+    "expected_content_keywords": ["movies", "verified", "TMDB"]
+  }
+]

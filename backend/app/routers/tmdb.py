@@ -38,7 +38,7 @@ def tmdb_get(endpoint: str, params: dict = None):
     for base_url in base_urls:
         url = f"{base_url}{endpoint}"
         print("=" * 50)
-        print("URL:", url)
+        print("TMDB URL:", url)
         print("TOKEN FOUND:", bool(TMDB_ACCESS_TOKEN))
 
         for attempt in range(2):
@@ -47,18 +47,35 @@ def tmdb_get(endpoint: str, params: dict = None):
                     url,
                     headers=headers,
                     params=params,
-                    timeout=20,
+                    timeout=10,
                     verify=False
                 )
 
                 print("STATUS:", response.status_code)
 
                 if response.status_code == 401:
-                    print("TMDB AUTHENTICATION FAILED")
+                    print("TMDB AUTHENTICATION FAILED (401)")
                     raise HTTPException(
                         status_code=401,
                         detail="TMDB authentication failed. Check TMDB_ACCESS_TOKEN."
                     )
+
+                content_type = response.headers.get("Content-Type", "")
+                if response.status_code == 403:
+                    print("TMDB ACCESS BLOCKED (403)")
+                    # Check if blocked by network firewall proxy
+                    if "text/html" in content_type:
+                        raise HTTPException(
+                            status_code=503,
+                            detail="TMDB upstream request is blocked by the local network firewall (HTTP 403: Restricted site). Please connect to an unrestricted network or whitelist api.themoviedb.org."
+                        )
+                    raise HTTPException(
+                        status_code=403,
+                        detail="TMDB returned 403 Forbidden."
+                    )
+
+                if response.status_code == 200 and "application/json" in content_type:
+                    return response.json()
 
                 response.raise_for_status()
                 return response.json()
@@ -67,16 +84,16 @@ def tmdb_get(endpoint: str, params: dict = None):
                 raise
 
             except (requests.exceptions.ConnectionError, requests.exceptions.Timeout) as e:
-                print(f"TMDB connection attempt {attempt + 1} to {base_url} failed: {e}")
+                print(f"TMDB connection attempt {attempt + 1} to {base_url} failed: {type(e).__name__}")
                 last_exception = e
                 time.sleep(0.5)
                 continue
 
             except requests.exceptions.HTTPError as e:
-                print("TMDB HTTP ERROR:", e)
+                print("TMDB HTTP ERROR:", response.status_code)
                 raise HTTPException(
-                    status_code=response.status_code,
-                    detail=response.text
+                    status_code=502,
+                    detail=f"TMDB upstream service returned HTTP error: {response.status_code}"
                 )
 
             except Exception as e:
@@ -86,7 +103,7 @@ def tmdb_get(endpoint: str, params: dict = None):
     # If all base URLs failed
     raise HTTPException(
         status_code=503,
-        detail=f"TMDB service unavailable after attempts: {str(last_exception)}"
+        detail=f"TMDB service unavailable: external request blocked or unreachable ({str(last_exception)})"
     )
 
 
@@ -102,6 +119,34 @@ def search_movies(
 ):
     data = tmdb_get(
         "/search/movie",
+        {
+            "query": query,
+            "page": page,
+            "include_adult": "false",
+            "language": language
+        }
+    )
+
+    return {
+        "page": data.get("page", 1),
+        "total_pages": data.get("total_pages", 0),
+        "total_results": data.get("total_results", 0),
+        "results": data.get("results", [])
+    }
+
+
+# =========================================================
+# MULTI SEARCH (MOVIES + TV)
+# =========================================================
+
+@router.get("/multi/search")
+def multi_search(
+    query: str,
+    page: int = 1,
+    language: str = "en-US"
+):
+    data = tmdb_get(
+        "/search/multi",
         {
             "query": query,
             "page": page,

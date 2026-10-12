@@ -19,6 +19,7 @@ class User(Base):
     is_active = Column(Boolean, default=True)
 
     preferences = relationship("UserPreferences", back_populates="user", uselist=False)
+    conversations = relationship("ChatConversation", back_populates="user", cascade="all, delete-orphan")
 
 class UserPreferences(Base):
     __tablename__ = "user_preferences"

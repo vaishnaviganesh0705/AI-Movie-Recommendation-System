@@ -11,6 +11,8 @@ from app.routers import chat
 from app.routers import notifications
 from app.routers import subscription
 from app.routers import music
+from app.routers import subtitles
+from app.routers import ai_chat
 
 from fastapi.staticfiles import StaticFiles
 import app.models
@@ -49,9 +51,19 @@ app.include_router(watchlist.router)
 app.include_router(history.router)
 app.include_router(users.router)
 app.include_router(chat.router)
+app.include_router(ai_chat.router)
 app.include_router(notifications.router)
 app.include_router(subscription.router)
 app.include_router(music.router)
+app.include_router(subtitles.router)
+
+@app.on_event("startup")
+def on_startup():
+    try:
+        from app.services.subtitle_service import SubtitleService
+        SubtitleService.index_all_subtitles()
+    except Exception as e:
+        print("Subtitle auto-index warning on startup:", e)
 
 # Ensure uploads directory exists
 os.makedirs("uploads", exist_ok=True)

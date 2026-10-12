@@ -46,6 +46,7 @@ def update_history(item: HistoryItemCreate, db: Session = Depends(get_db), curre
     history_item.progress_seconds = item.progress_seconds
     history_item.duration_seconds = item.duration_seconds
     history_item.completed = item.completed
+    history_item.last_watched_at = datetime.datetime.utcnow()
     
     db.commit()
     db.refresh(history_item)

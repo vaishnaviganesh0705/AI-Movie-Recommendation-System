@@ -22,6 +22,7 @@ import Search from "./pages/Search";
 import Profile from "./pages/Profile";
 import MovieDetails from "./pages/MovieDetails";
 import Watchlist from "./pages/Watchlist";
+import History from "./pages/History";
 
 function App() {
   return (
@@ -47,6 +48,7 @@ function App() {
           <Route path="/search" element={<Search />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/watchlist" element={<Watchlist />} />
+          <Route path="/history" element={<History />} />
           <Route path="/movie/:id" element={<MovieDetails />} />
         </Route>
 

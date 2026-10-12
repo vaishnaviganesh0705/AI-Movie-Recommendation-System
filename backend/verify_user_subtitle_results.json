@@ -1,0 +1,101 @@
+[
+  {
+    "query": "Who is Cooper?",
+    "intent": "SUBTITLE_QA",
+    "grounding_status": "Strong evidence",
+    "evidence_count": 10,
+    "answer": "Answer:\nCooper is Murph's father and a former pilot who is currently working as a farmer. He is also the person who was piloting a lander (referred to as a \"lander\" in the dialogue) during a crash incident mentioned by Murph.\n\nEvidence:\n- [00:00:10,364 --> 00:01:27,462] MURPH: Well, my dad was a farmer.\n- [00:01:22,749 --> 00:02:13,383] MAN: (OVER RADIO) ...Shutting it down, Cooper. ... MURPH: Dad? ... COOPER: There are no such things as ghosts, babe.\n- [00:03:24,287 --> 00:04:09,833] COOPER: What the heck did you do... ...to my lander?\n\nGrounding status:\nStrong evidence\n\nLimitations:\nThe subtitles do not explicitly state that Cooper is a \"former pilot\" or \"trained engineer,\" nor do they mention Professor Brand or the Endurance mission. The identification as a pilot is inferred from the context of him piloting a \"lander\" and the radio communication, but the specific professional background details are not explicitly defined in the provided text.",
+    "latency_ms": 1723.4,
+    "success": true
+  },
+  {
+    "query": "Who is Murph?",
+    "intent": "SUBTITLE_QA",
+    "grounding_status": "Strong evidence",
+    "evidence_count": 7,
+    "answer": "Answer:\nMurph is Cooper's daughter. She is a young girl who lives with her father, Cooper, and her brother Tom. She is interested in science and has a conflict with her brother Tom regarding the existence of ghosts (which she calls a poltergeist).\n\nEvidence:\n- [00:01:22,749 --> 00:02:13,383] MURPH: Dad? ... COOPER: There are no such things as ghosts, babe.\n- [00:02:05,042 --> 00:02:50,962] Get your butt back in bed, Murph.\n- [00:03:24,287 --> 00:04:09,833] Tom, 4:00 today, you and me in the barn... Not at the table, Murph. Dad, can you fix this? ... It was your ghost? ... Dad, tell her. COOPER: Well, it's not very scientific, Murph.\n- [00:04:05,495 --> 00:04:51,792] All right, Murph, you want to talk science? ... Have a good day at school.\n\nGrounding status:\nStrong evidence\n\nLimitations:\nNone",
+    "latency_ms": 1280.6,
+    "success": true
+  },
+  {
+    "query": "What did Cooper say about ghosts?",
+    "intent": "SUBTITLE_QA",
+    "grounding_status": "Strong evidence",
+    "evidence_count": 12,
+    "answer": "Answer:\nCooper initially told Murph that \"There are no such things as ghosts, babe.\" Later, he explained that once you are a parent, \"you're the ghost of your children's future,\" and finally admitted to Murph, \"I can't be your ghost right now. I need to exist.\"\n\nEvidence:\n- [00:01:22,749 --> 00:02:13,383] COOPER: There are no such things as ghosts, babe.\n- [00:37:28,747 --> 00:38:20,298] COOPER: Once you're a parent, you're the ghost of your children's future.\n- [00:38:10,163 --> 00:38:56,334] COOPER: Murph, look at me. I can't be your ghost right now. I need to exist.\n\nGrounding status:\nStrong evidence\n\nLimitations:\nNone",
+    "latency_ms": 32184.3,
+    "success": true
+  },
+  {
+    "query": "What did Murph say to Cooper?",
+    "intent": "SUBTITLE_QA",
+    "grounding_status": "Strong evidence",
+    "evidence_count": 12,
+    "answer": "Answer:\nMurph said several things to Cooper, including: \"You wouldn't be here if it wasn't for me,\" \"Go away!\" and \"Go! If you're leaving, just go.\" Later, she also said, \"It was you.\"\n\nEvidence:\n- [00:22:43,946 --> 00:22:50,119] MURPH: You wouldn't be here if it wasn't for me.\n- [00:35:33,131 --> 00:36:18,218] MURPH: Go away! ... MURPH: Go! If you're leaving, just go.\n- [02:25:30,805 --> 02:26:22,899] MURPH: It was you.\n\nGrounding status:\nStrong evidence\n\nLimitations:\nNone",
+    "latency_ms": 1995.6,
+    "success": true
+  },
+  {
+    "query": "What happened before Cooper left?",
+    "intent": "SUBTITLE_QA",
+    "grounding_status": "Strong evidence",
+    "evidence_count": 12,
+    "answer": "Answer:\nBefore leaving, Cooper had a conversation with Donald where Donald warned him not to trust the \"right thing done for the wrong reason\" and noted that the world had been telling them to leave. Cooper then spoke with Murph, acknowledging that as a parent he is the \"ghost of his children's future.\" He asked Murph to talk to him so he could \"fix this\" before he went, but Murph responded that she would keep it broken so he would have to stay.\n\nEvidence:\n- [00:36:09,584 --> 00:36:57,924] DONALD: Don't trust the right thing done for the wrong reason... COOPER: This world's a treasure, Donald, but it's been telling us to leave for a while now.\n- [00:36:49,290 --> 00:37:35,378] COOPER: ...you got to make things right with Murph. I Will. Without making promises you don't know you can keep. You have to talk to me, Murph. I need to fix this before I go.\n- [00:37:28,747 --> 00:38:20,298] MURPH: Then I'll keep it broken so you have to stay. COOPER: ...Once you're a parent, you're the ghost of your children's future.\n\nGrounding status:\nStrong evidence\n\nLimitations:\nNone",
+    "latency_ms": 9457.2,
+    "success": true
+  },
+  {
+    "query": "What was said around 00:37:15?",
+    "intent": "TIMELINE_QA",
+    "grounding_status": "Strong evidence",
+    "evidence_count": 5,
+    "answer": "Answer:\nCooper tells Murph, \"You have to talk to me, Murph. I need to fix this before I go.\"\n\nEvidence:\n- [00:37:28,747 --> 00:38:20,298] You have to talk to me, Murph. I need to fix this before I go.\n\nGrounding status:\nStrong evidence\n\nLimitations:\nThe specific timestamp 00:37:15 falls slightly before the start of the provided subtitle block (00:37:28), but the dialogue immediately following is the most relevant excerpt available in the evidence for that timeframe.",
+    "latency_ms": 18139.7,
+    "success": true
+  },
+  {
+    "query": "What happened five minutes before 00:42:15?",
+    "intent": "TIMELINE_QA",
+    "grounding_status": "Not enough evidence",
+    "evidence_count": 9,
+    "answer": "Answer:\nFive minutes before 00:42:15 is approximately 00:37:15. During this time, Cooper and Murph are having an emotional conversation where Cooper explains that he was chosen for the mission and that Murph led him to the people who recruited him. Murph reveals she figured out the message in the books says \"Stay,\" and Cooper explains the time dilation effects of traveling near the speed of light or a black hole, suggesting they might be the same age when he returns.\n\nEvidence:\n- [00:37:28,747 --> 00:38:20,298] MURPH: Then I'll keep it broken so you have to stay. COOPER: After you kids came along, your mom said something to me I never quite understood. She said, \"Now... ...we're just here to be memories for our kids.\" And I think that now I understand what she meant. Once you're a parent, you're the ghost of your children's future.\n- [00:38:10,163 --> 00:38:56,334] MURPH: You said ghosts didn't exist. COOPER: That's right, Murph. Murph, look at me. I can't be your ghost right now. I need to exist. They chose me. Murph, they chose me. You saw. You're the one who led me to them. MURPH: That's exactly why you can't go. I figured out the message. - One word. Know what it is? - Murph.\n- [00:38:50,745 --> 00:39:38,293] I figured out the message. - One word. Know what it is? - Murph. \"",
+    "latency_ms": 10717.2,
+    "success": true
+  },
+  {
+    "query": "What happened between 00:37:15 and 00:42:15?",
+    "intent": "TIMELINE_QA",
+    "grounding_status": "Not enough evidence",
+    "evidence_count": 9,
+    "answer": "Answer:\nCooper and Murph have an emotional conversation where Cooper explains that he was chosen for the mission and that Murph's actions led him to the secret NASA base. Murph reveals she decoded a message from the \"ghost\" that says \"Stay,\" but Cooper insists he must go and promises to return, noting that time dilation will affect their aging. He bids farewell to Murph and Tom, asking Donald to look after his children. The scene concludes with the launch sequence of the rocket, counting down from ten to one as the engines ignite.\n\nEvidence:\n- [00:37:28,747 --> 00:38:20,298] COOPER: ...Once you're a parent, you're the ghost of your children's future. MURPH: You said ghosts didn't exist.\n- [00:38:10,163 --> 00:38:56,334] COOPER: ...They chose me. Murph, they chose me. You saw. You're the one who led me to them. MURPH: That's exactly why you can't go. I figured out the message. - One word. Know what it is? - Murph.\n- [00:38:50,745 --> 00:39:38,293] \"Stay.\" - It says, \"Stay,\" Dad. - Murph. You don't believe me. Look at the books! Look at this. It says, \"Stay.\" Why...? You're not listening! It says, \"Stay!\" No, I'm coming back.\n- [00:39:32,620 --> 00:40:19,208] ...traveling near the speed of light, or... ...near a black hole",
+    "latency_ms": 21541.2,
+    "success": true
+  },
+  {
+    "query": "What happened after 00:42:15?",
+    "intent": "TIMELINE_QA",
+    "grounding_status": "Not enough evidence",
+    "evidence_count": 10,
+    "answer": "Answer:\nAfter 00:42:15, the rocket continues its ascent, reaching Mach 1. TARS makes a sarcastic comment about \"slaves for my robot colony,\" which prompts Doyle to explain that TARS has a humor setting to fit in better. Cooper jokes about TARS being a \"giant sarcastic robot\" and asks to lower the humor setting from 100% to 75%. Following this, TARS announces stage two separation, and Cooper takes manual control of the feeds, deactivating probe heaters and checking fuel cells. Cooper reflects on the difficulty of leaving everything behind, specifically mentioning his kids. Amelia Brand responds by saying they will be spending a lot of time together and should learn to talk (and when not to). Cooper then asks TARS about its honesty parameter, which is set at 90%. TARS notes that absolute honesty isn't always diplomatic or safe, and Cooper agrees to keep it at 90%. Finally, TARS announces they are approaching the Endurance, twelve minutes out, and Doyle takes control to dock with the module port.\n\nEvidence:\n- [00:42:03,771 --> 00:42:49,317] \"There is Mach 1. Everybody good? Plenty of slaves for my robot colony?\"\n- [00:42:42,810 --> 00:43:30,983] \"DOYLE: They gave him a humor setting so he'd fit in better with his unit... COOPER: A giant sarcastic robot... TARS: Stage two separation. COOPER: All feeds going manual.\"\n- [00:43:16,302 --> 00:44:11,315] \"COOPER: Deactivate probe heater one, two and three... COOPER:",
+    "latency_ms": 23325.9,
+    "success": true
+  },
+  {
+    "query": "Who was mentioned around 01:10:00?",
+    "intent": "TIMELINE_QA",
+    "grounding_status": "Strong evidence",
+    "evidence_count": 5,
+    "answer": "Answer:\nCooper, Amelia (Brand), Doyle, and Case were mentioned or speaking around 01:10:00.\n\nEvidence:\n- [01:09:43,429 --> 01:10:37,400] Her beacon. DOYLE: Wreckage. Where's the rest? Towards the mountains! COOPER: Those aren't mountains. They're waves. Oh, shit. Oh, shit. Oh, shit. COOPER: That one's moving away from us. AMELIA: We need the recorder. COOPER: Brand, Doyle, back to the Ranger now!\n- [01:10:23,302 --> 01:11:12,643] AMELIA: We need the recorder. COOPER: Brand, Doyle, back to the Ranger now! We're not leaving without her data. Get back here now! We do not have time! The second wave is coming! We're in the middle of a swell. AMELIA: No, I got it. Get your ass back to the Ranger now! (GRUNTING) Brand, get back here now! AMELIA: No, Cooper, go. Cooper, go. I can't make it. - Go! - CASE, go get her. - Go! - Get up. Get up, Brand!\n\nGrounding status:\nStrong evidence\n\nLimitations:\nNone",
+    "latency_ms": 25081.7,
+    "success": true
+  },
+  {
+    "query": "Summarize the dialogue between 00:37:15 and 00:42:15.",
+    "intent": "TIMELINE_QA",
+    "grounding_status": "Not enough evidence",
+    "evidence_count": 9,
+    "answer": "Answer:\nCooper and Murph have an emotional farewell where Cooper explains that he was chosen for the mission and that Murph's discovery of the \"Stay\" message led him to NASA. He reassures her that he will return, noting that time dilation near a black hole means they might be the same age when he comes back. Murph is upset and refuses to let him go, but Cooper insists he must leave. He tells her he loves her forever and promises to return. After a brief, tense exchange with his son Tom regarding the truck, Cooper departs, and the scene transitions to the rocket launch countdown.\n\nEvidence:\n- [00:37:28,747 --> 00:38:20,298] MURPH: Then I'll keep it broken so you have to stay. COOPER: ...Once you're a parent, you're the ghost of your children's future.\n- [00:38:10,163 --> 00:38:56,334] COOPER: ...They chose me. Murph, they chose me. You saw. You're the one who led me to them. MURPH: That's exactly why you can't go. I figured out the message. - One word. Know what it is? - Murph.\n- [00:38:50,745 --> 00:39:38,293] \"Stay.\" - It says, \"Stay,\" Dad. - Murph. You don't believe me. Look at the books! ... No, I'm coming back. When'? ... traveling near the speed of light, or... ...near a black hole...\n- [00:39:32,620 --> 00:40:19,208] ...time",
+    "latency_ms": 19310.3,
+    "success": true
+  }
+]

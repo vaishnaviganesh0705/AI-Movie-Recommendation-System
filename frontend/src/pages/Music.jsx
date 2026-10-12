@@ -1,10 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { Play, Pause, Square, X, Heart, Music2, Disc, User, Volume2, SkipBack, SkipForward, Search } from 'lucide-react';
+import { Play, Pause, Square, X, Heart, Music2, Disc, User, Volume2, SkipBack, SkipForward, Search, ExternalLink } from 'lucide-react';
 import api from '../services/api';
 import '../styles/Music.css';
 
 const Music = () => {
-    const [activeTab, setActiveTab] = useState('songs'); // 'songs', 'artists', 'albums', 'liked'
+    const [activeTab, setActiveTab] = useState('songs'); // 'songs', 'artists', 'albums', 'liked', 'spotify'
     const [songs, setSongs] = useState([]);
     const [artists, setArtists] = useState([]);
     const [albums, setAlbums] = useState([]);
@@ -13,6 +13,12 @@ const Music = () => {
     const [selectedGenre, setSelectedGenre] = useState('All');
     const [searchQuery, setSearchQuery] = useState('');
     const [loading, setLoading] = useState(true);
+
+    // Spotify Integration State
+    const [spotifyTracks, setSpotifyTracks] = useState([]);
+    const [spotifyQuery, setSpotifyQuery] = useState('');
+    const [spotifyLoading, setSpotifyLoading] = useState(false);
+    const [spotifyError, setSpotifyError] = useState(null);
 
     // Audio Player State
     const [currentSong, setCurrentSong] = useState(null);
@@ -274,6 +280,33 @@ const Music = () => {
 
     const likedSongs = songs.filter(s => likedSongIds.has(s.id));
 
+    const handleSearchSpotify = async (e) => {
+        if (e) e.preventDefault();
+        const q = spotifyQuery.trim();
+        if (!q) return;
+
+        setSpotifyLoading(true);
+        setSpotifyError(null);
+        try {
+            const res = await api.get('/music/search', { params: { q } });
+            if (res.data.developer_restricted || res.data.status_code === 403) {
+                setSpotifyError(res.data.error || "Spotify API access for this feature is unavailable for the current developer account.");
+                setSpotifyTracks([]);
+            } else if (res.data.tracks) {
+                setSpotifyTracks(res.data.tracks);
+                setSpotifyError(null);
+            } else if (res.data.error) {
+                setSpotifyError(res.data.error);
+                setSpotifyTracks([]);
+            }
+        } catch (err) {
+            console.error("Spotify search failed", err);
+            setSpotifyError("Spotify API request failed. Please check backend connection.");
+        } finally {
+            setSpotifyLoading(false);
+        }
+    };
+
     return (
         <div className="music-page-container">
             {/* Real DOM HTML5 Audio Element */}
@@ -314,6 +347,13 @@ const Music = () => {
                     className={`music-tab-btn ${activeTab === 'liked' ? 'active' : ''}`}
                 >
                     <Heart size={14} style={{ marginRight: '6px' }} /> My Favorites ({likedSongIds.size})
+                </button>
+                <button
+                    onClick={() => setActiveTab('spotify')}
+                    className={`music-tab-btn ${activeTab === 'spotify' ? 'active' : ''}`}
+                    style={activeTab === 'spotify' ? { borderColor: '#1db954', color: '#1db954' } : {}}
+                >
+                    <ExternalLink size={14} style={{ marginRight: '6px' }} /> Spotify Search
                 </button>
             </div>
 
@@ -452,6 +492,128 @@ const Music = () => {
                                 </div>
                             </div>
                         ))
+                    )}
+                </div>
+            )}
+
+            {/* Spotify Catalog Tab */}
+            {activeTab === 'spotify' && (
+                <div style={{ marginTop: '10px' }}>
+                    <form onSubmit={handleSearchSpotify} style={{ display: 'flex', gap: '10px', marginBottom: '24px', maxWidth: '600px' }}>
+                        <input
+                            type="text"
+                            placeholder="Search Spotify by track, artist, album, or vibe..."
+                            value={spotifyQuery}
+                            onChange={(e) => setSpotifyQuery(e.target.value)}
+                            style={{
+                                flex: 1,
+                                padding: '12px 16px',
+                                borderRadius: '10px',
+                                background: 'var(--bg-secondary)',
+                                border: '1px solid rgba(255,255,255,0.15)',
+                                color: 'white',
+                                fontSize: '14px',
+                                outline: 'none'
+                            }}
+                        />
+                        <button
+                            type="submit"
+                            disabled={spotifyLoading}
+                            style={{
+                                padding: '12px 24px',
+                                borderRadius: '10px',
+                                background: '#1db954',
+                                color: '#000',
+                                fontWeight: 700,
+                                fontSize: '13.5px',
+                                border: 'none',
+                                cursor: 'pointer',
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: '8px'
+                            }}
+                        >
+                            <Search size={16} /> {spotifyLoading ? 'Searching...' : 'Search'}
+                        </button>
+                    </form>
+
+                    {spotifyError && (
+                        <div style={{
+                            padding: '16px 20px',
+                            borderRadius: '12px',
+                            background: 'rgba(231, 76, 60, 0.12)',
+                            border: '1px solid rgba(231, 76, 60, 0.35)',
+                            color: '#e74c3c',
+                            fontSize: '14px',
+                            lineHeight: '1.5',
+                            marginBottom: '20px'
+                        }}>
+                            <strong>Spotify Service Note:</strong><br />
+                            {spotifyError}
+                        </div>
+                    )}
+
+                    {spotifyTracks.length > 0 && (
+                        <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
+                            <div style={{ fontSize: '12px', color: '#1db954', fontWeight: 700, marginBottom: '6px' }}>
+                                Found {spotifyTracks.length} tracks on Spotify:
+                            </div>
+                            {spotifyTracks.map((s, idx) => (
+                                <div
+                                    key={s.id || idx}
+                                    style={{
+                                        display: 'flex',
+                                        alignItems: 'center',
+                                        justifyContent: 'space-between',
+                                        background: 'rgba(255, 255, 255, 0.03)',
+                                        border: '1px solid rgba(255, 255, 255, 0.08)',
+                                        borderRadius: '12px',
+                                        padding: '12px 16px'
+                                    }}
+                                >
+                                    <div style={{ display: 'flex', alignItems: 'center', gap: '14px' }}>
+                                        <div style={{ width: '48px', height: '48px', borderRadius: '6px', overflow: 'hidden', background: 'var(--bg-tertiary)', flexShrink: 0 }}>
+                                            {s.album_image ? (
+                                                <img src={s.album_image} alt={s.name} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                                            ) : (
+                                                <div style={{ width: '100%', height: '100%', display: 'grid', placeItems: 'center', color: '#1db954' }}>
+                                                    <Music2 size={20} />
+                                                </div>
+                                            )}
+                                        </div>
+                                        <div>
+                                            <div style={{ fontWeight: 700, fontSize: '14px', color: 'white' }}>{s.name}</div>
+                                            <div style={{ fontSize: '12px', color: 'var(--text-secondary)' }}>
+                                                {Array.isArray(s.artists) ? s.artists.join(', ') : s.artists}
+                                                {s.album_name && ` • ${s.album_name}`}
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {s.spotify_url && (
+                                        <a
+                                            href={s.spotify_url}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            style={{
+                                                padding: '8px 16px',
+                                                borderRadius: '20px',
+                                                background: '#1db954',
+                                                color: '#000',
+                                                textDecoration: 'none',
+                                                fontWeight: 700,
+                                                fontSize: '12px',
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                                gap: '6px'
+                                            }}
+                                        >
+                                            <ExternalLink size={12} color="#000" /> Open in Spotify
+                                        </a>
+                                    )}
+                                </div>
+                            ))}
+                        </div>
                     )}
                 </div>
             )}

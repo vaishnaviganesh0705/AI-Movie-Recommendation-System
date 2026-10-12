@@ -34,12 +34,18 @@ api.interceptors.response.use(
   (response) => response,
 
   (error) => {
-
     console.error(
       "API Error:",
       error.response?.status,
       error.response?.data
     );
+
+    // If a request returns 401 Unauthorized (expired JWT or deleted user),
+    // clear stale tokens from localStorage so background requests don't keep failing.
+    if (error.response?.status === 401) {
+      localStorage.removeItem("access_token");
+      localStorage.removeItem("token");
+    }
 
     return Promise.reject(error);
   }
